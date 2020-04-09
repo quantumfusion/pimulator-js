@@ -16,6 +16,25 @@ SCREEN_HEIGHT = 48
 SCREEN_WIDTH = 48
 
 #######################################
+
+class ObjectClass:
+    def __init__(self, X, Y, radius):
+        self.X = X
+        self.Y = Y
+        self.dir = 0
+        self.radius = radius
+        self.robot = None
+
+    def update_position(self):
+
+        # TODO: translate object position relative
+        #       to robot position via M A T H
+        if self.robot:
+            self.X = self.robot.X
+            self.Y = self.robot.Y
+            self.dir = self.robot.dir
+            
+
 class RobotClass:
     """The MODEL for this simulator. Stores robot data and handles position
        calculations & Runtime API calls """
@@ -34,6 +53,7 @@ class RobotClass:
         self.ltheta = 0.0       # angular position of l wheel, degree
         self.rtheta = 0.0       # angular position of r wheel, degree
         self.dir = 0.0         # Direction of the robot facing, degree
+        self.object = None
 
         # All asychronous functions currently running
         self.running_coroutines = set()
@@ -41,6 +61,14 @@ class RobotClass:
         # Ensure we don't hit sync errors when updating our values
         self.queue = queue
 
+    def grab_object(obj):
+        obj.robot = self
+        self.object = object
+
+    def release_object(obj):
+        obj.robot = None
+        self.object = None
+        
     def update_position(self):
         """Updates position of the  Robot using differential drive equations
         
@@ -228,7 +256,6 @@ class GamepadClass:
             return theta
         else:
             return theta + 180.0
-
 
 class Camera:
     """Create images of parts of the robot in a select format"""
