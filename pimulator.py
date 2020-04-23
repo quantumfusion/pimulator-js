@@ -43,7 +43,7 @@ class RobotClass:
 
     def update_position(self):
         """Updates position of the  Robot using differential drive equations
-        
+
         Derived with reference to:
         https://chess.eecs.berkeley.edu/eecs149/documentation/differentialDrive.pdf
         """
@@ -143,6 +143,7 @@ class RobotClass:
             raise ValueError("First argument to Robot.is_running must be defined with `async def`, not `def`")
 
         return fn in self.running_coroutines
+
 
 
 class GamepadClass:
@@ -457,8 +458,8 @@ class Simulator:
 
     def consistent_loop(self, period, func):
         """Execute the robot at specificed frequency.
-        
-        period (int): the period in seconds to run func in 
+
+        period (int): the period in seconds to run func in
         func (function): the function to execute each loop
 
         func may take only TIMEOUT_VALUE seconds to finish execution

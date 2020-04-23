@@ -14,17 +14,22 @@
     <h1>PiE Robotics Simulator</h1>
 
     <svg width="200" height="200" version="1.1" xmlns="http://www.w3.org/2000/svg">
-      <rect x="70" 
-            y="10" 
-            width="30" 
-            height="40" 
+      <rect id="robot"
+            x="70"
+            y="10"
+            width="30"
+            height="40"
             rx="3"
             ry="3"
-            stroke="navy" 
-            fill="transparent" 
-            transform="rotate(0)" 
+            stroke="navy"
+            fill="transparent"
+            transform="rotate(0)"
             stroke-width="2"/>
+      <rect id="obj" x="90" y="100" width="30" height="30" transform="rotate(0)"
+      style="fill:blue;stroke:navy;stroke-width:2;fill-opacity:0.1;stroke-opacity:0.9" />
     </svg>
+
+
 
     <div id="demo">
       x and y coordinates updated here
