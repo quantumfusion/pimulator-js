@@ -22,7 +22,7 @@ var scaleFactor = 2
 class RobotClass {
     /*The MODEL for this simulator. Stores robot data and handles position
        calculations & Runtime API calls """*/
-    tickRate = 0.05;          // in s
+    tickRate = 50;          // in ms
     width = 12 * scaleFactor;                  // width of robot , inches
     wRadius = 2  * scaleFactor;                // radius of a wheel, inches
     MaxX = 143 * scaleFactor;                 // maximum X value, inches, field is 12'x12'
@@ -56,7 +56,7 @@ class RobotClass {
         let dx;
         let dy;
         if (lv == rv) {
-            let distance = rv * this.tickRate;
+            let distance = rv * this.tickRate/1000;
             dx = distance * Math.cos(radian)
             dy = distance * Math.sin(radian)
             //let finalDir = null
@@ -64,7 +64,7 @@ class RobotClass {
         else {
             let rt = this.width/2 * (lv+rv)/(rv-lv);
             let wt = (rv-lv)/this.width;
-            let theta = wt * this.tickRate;
+            let theta = wt * this.tickRate/1000;
             let i = rt * (1 - Math.cos(theta));
             let j = Math.sin(theta) * rt;
             dx = i * Math.sin(radian) + j * Math.cos(radian);
@@ -103,10 +103,25 @@ class RobotClass {
         }
     }
 
-    async sleep(duration) {
+    sleep(duration) {
         /* Autonomous code pauses execution for <duration> seconds
         */
-        await new Promise(resolve => setTimeout(resolve, duration*1000));
+        // await new Promise(resolve => setTimeout(resolve, duration*1000));
+        let ms = duration*1000;
+        let start = new Date().getTime();
+        let cur = start;
+        let tick = start;
+        this.updatePosition();
+
+        let numUpdates = 1;
+        while (cur < start + ms) {
+            cur = new Date().getTime();
+            if (cur - tick >= this.tickRate) {
+                this.updatePosition();
+                tick = tick + this.tickRate;
+                numUpdates++;
+            }
+        }
     }
 
     printState() {
@@ -473,12 +488,11 @@ class Simulator{
     consistentLoop(period, func){
         /* Execute the robot at specificed frequency.
 
-        period (int): the period in seconds to run func in
+        period (int): the period in ms to run func in
         func (function): the function to execute each loop
 
         func may take only TIMEOUT_VALUE seconds to finish execution
         */
-        period = period * 1000;
         this.interval = setInterval(this.loopContent, period, func);
     }
 
@@ -515,7 +529,10 @@ class Simulator{
         //                                 name="autonomous code thread", daemon=True)
         // auto_thread.start()
         this.autonomous_setup()
-        this.consistentLoop(this.robot.tickRate, function(){});
+        this.consistentLoop(this.robot.tickRate, function(){
+            env = pyodide.pyimport("env");
+            this.robot = env["Robot"];
+        }.bind(this));
         setTimeout(function() { this.stop(); }, 30*1000);
     }
 }

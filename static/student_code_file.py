@@ -29,12 +29,15 @@ def teleop_main():
         Robot.set_value("right_motor", "duty_cycle", max(min(left_y + turningSpeed, 1.0), -1.0))
 
 def autonomous_actions():
+    print("Action 1")
     Robot.set_value("left_motor", "duty_cycle", -1.0)
     Robot.set_value("right_motor", "duty_cycle", -1.0)
     Robot.sleep(1.0)
+    print("Action 2")
     Robot.set_value("left_motor", "duty_cycle", -1.0)
     Robot.set_value("right_motor", "duty_cycle", 1.0)
-    Robot.sleep(0.5)
+    Robot.sleep(5.0)
+    print("Action 3")
     Robot.set_value("left_motor", "duty_cycle", 1.0)
     Robot.set_value("right_motor", "duty_cycle", 1.0)
     Robot.sleep(1.0)

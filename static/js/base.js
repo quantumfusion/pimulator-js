@@ -17,15 +17,16 @@ function update(state) {
     */
     // console.log("StateX")
     // console.log(state.x)
-    document.getElementById("demo").innerHTML = state.x.toFixed(2) + ", " + state.y.toFixed(2)
-    var robotRect = document.querySelector("rect")
+    console.log(state);
+    window.document.getElementById("demo").innerHTML = state.x.toFixed(2) + ", " + state.y.toFixed(2);
+    var robotRect = window.document.querySelector("rect");
     // console.log("SVG")
     // console.log(robotRect)
-    robotRect.setAttributeNS(null, "x", state.x)
-    robotRect.setAttributeNS(null, "y", state.y)
-    var rotateStr = "rotate(" + state.dir + " " + (state.x + 15*scaleFactor) + " " + (state.y + 20*scaleFactor) + ")"
+    robotRect.setAttributeNS(null, "x", state.x);
+    robotRect.setAttributeNS(null, "y", state.y);
+    var rotateStr = "rotate(" + state.dir + " " + (state.x + 15*scaleFactor) + " " + (state.y + 20*scaleFactor) + ")";
     // console.log(rotateStr)
-    robotRect.setAttribute("transform", rotateStr)
+    robotRect.setAttribute("transform", rotateStr);
     // console.log("Adjusted")
 };
 
