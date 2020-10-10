@@ -1,4 +1,5 @@
-importScripts("https://pyodide-cdn2.iodide.io/v0.15.0/full/pyodide.js");
+// importScripts("https://pyodide-cdn2.iodide.io/v0.15.0/full/pyodide.js");
+importScripts("pyodide-build-0.15.0/pyodide.js")
 
 var code = "";
 var env = {};
@@ -436,8 +437,8 @@ class Simulator{
         //# Store the local environment into dictionary
         // env = {}
         //# Ensure the global Robot reflects the same robot Simulator is using
-        env['Robot'] = this.robot
-        env['Gamepad'] = this.gamepad
+        env['Robot'] = this.robot;
+        env['Gamepad'] = this.gamepad;
 
         pyodide.runPython(`
             from js import code, env
